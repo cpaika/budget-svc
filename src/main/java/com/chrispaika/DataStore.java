@@ -22,23 +22,22 @@ public class DataStore {
 
     public long createUser(String fName, String lName) {
         long uuid = ThreadLocalRandom.current().nextLong(100);
-         userStore.put(uuid, new User(uuid, fName, lName));
+        userStore.put(uuid, new User(uuid, fName, lName));
         return uuid;
-    }
-
-    public long createTransaction(String payee, String memo) {
-        long txid = ThreadLocalRandom.current().nextLong(100);
-        transactionStore.put(txid, new Transaction(txid, payee, "Hello", memo, 0, 0, false));
-        return txid;
     }
 
     public Transaction getTransaction(long txid) {
         return transactionStore.get(txid);
     }
 
+    public long addTransaction(Transaction t) {
+        transactionStore.put(t.getTxid(), t);
+        return t.getTxid();
+    }
 
     private void initialize() {
         userStore = new HashMap<Long, User>();
+        transactionStore = new HashMap<Long, Transaction>();
         this.createUser("Hello", "World");
         this.createUser("John", "Smith");
         this.createUser("Krabby", "Patty");
